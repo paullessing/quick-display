@@ -2,9 +2,16 @@
   font-size: 1.4rem;
 }
 
-.app__element {
-  display: block;
-  min-height: 20vh;
-  margin-bottom: 1vh;
-  background-color: #eee;
+.app {
+  &__title {
+    font-weight: 300;
+    margin-bottom: 1rem;
+  }
+
+  &__element {
+    display: block;
+    min-height: 20vh;
+    margin-bottom: 1vh;
+    background-color: #eee;
+  }
 }
