@@ -1,6 +1,7 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as methodOverride from "method-override";
+import {RootRouter} from "./root.router";
 
 const app: express.Application = express();
 
@@ -9,12 +10,7 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 //app.use(express.static(__dirname + '/public'));
 
-const router = express.Router();
-router.get('/transport', (req, res) => {
-  res.json({ tube: 'broken', bus: 'slow', cycle: 'yes' }).end();
-});
-
-app.use(router);
+app.use(new RootRouter().handler);
 
 var env = process.env.NODE_ENV || 'dev';
 const port = 9090;

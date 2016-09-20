@@ -5,7 +5,13 @@
     "express": "registry:npm/express#4.14.0+20160911114220"
   },
   "globalDependencies": {
+    "bluebird": "registry:dt/bluebird#3.0.0+20160811111256",
+    "form-data": "registry:dt/form-data#0.0.0+20160724024111",
     "method-override": "registry:dt/method-override#0.0.0+20160317120654",
-    "node": "registry:dt/node#6.0.0+20160919063032"
+    "node": "registry:dt/node#6.0.0+20160919063032",
+    "promises-a-plus": "registry:dt/promises-a-plus#0.0.0+20160317120654",
+    "request": "registry:dt/request#0.0.0+20160726020908",
+    "request-promise": "registry:dt/request-promise#3.0.0+20160811111312",
+    "winston": "registry:dt/winston#0.0.0+20160417152829"
   }
 }

@@ -6,7 +6,10 @@ dist/
 
 # Package managers
 node_modules/
-typings/
+# Don't ignore typings/custom, but everything else in typings/ (see http://stackoverflow.com/a/5534865)
+!typings/
+typings/*
+!typings/custom
 
 # Debug and generated files
 npm-debug.log
