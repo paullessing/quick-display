@@ -1,0 +1,12 @@
+# Output files
+dist/
+
+# IDEs
+.idea/
+
+# Package managers
+node_modules/
+typings/
+
+# Debug and generated files
+npm-debug.log
