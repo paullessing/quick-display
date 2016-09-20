@@ -1,0 +1,26 @@
+.stations{
+  &__station {
+    background-color: #f8f8f8;
+    box-shadow: 2px 2px 4px 0 rgba(#ccc, 0.4);
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+  }
+
+  &__title {
+    font-family: serif;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 0.8rem;
+  }
+}
+
+.platforms {
+  &__platform {
+    margin-bottom: 1rem;
+  }
+
+  &__name {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+}

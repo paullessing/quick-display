@@ -1,4 +1,6 @@
-export interface ArrivalsResponse {
+export type ArrivalsResponse = Arrival[];
+
+export interface Arrival {
   $type: string; // "Tfl.Api.Presentation.Entities.Prediction, Tfl.Api.Presentation.Entities",
   id: string; // "1273855961",
   operationType: number; // 1,

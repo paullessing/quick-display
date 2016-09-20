@@ -1,3 +1,21 @@
-<p>
-  Transport
-</p>
+<ul class="stations">
+  <li
+    *ngFor="let station of stations"
+    class="stations__station"
+  >
+    <h3 class="stations__title">{{ station.stationName }}</h3>
+    <ul class="platforms">
+      <li
+        *ngFor="let platform of station.platforms"
+        class="platforms__platform"
+      >
+        <h4 class="platforms__name">{{ platform.platformName }}</h4>
+        <ul>
+          <li *ngFor="let arrival of platform.arrivals">
+            <b>{{ arrival.lineName }}</b> towards <b>{{ arrival.towards }}</b> in <b>{{ arrival.timeToStation | timeToArrival }}</b>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>

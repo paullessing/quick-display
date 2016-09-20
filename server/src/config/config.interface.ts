@@ -1,9 +1,10 @@
 export interface LineConfig {
-  lineName: string;
+  lineId: string;
 }
 
 export interface StationConfig {
   id: string;
+  displayName: string;
   lines: LineConfig[];
 }
 

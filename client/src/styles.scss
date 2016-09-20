@@ -53,8 +53,18 @@ table {
 /**
  * START OF CODE
  */
+*, *:after, *:before {
+  box-sizing: border-box;
+}
+
 body {
   font-size: 10px;
+  line-height: 1.2;
   padding: 1rem;
   font-family: Roboto, Arial, Helvetica, sans-serif;
+  background-color: #eee;
+}
+
+b {
+  font-weight: bolder;
 }
