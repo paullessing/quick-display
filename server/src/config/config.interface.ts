@@ -6,6 +6,11 @@ export interface StationConfig {
   id: string;
   displayName: string;
   lines: LineConfig[];
+  directions: {
+    outbound: string;
+    inbound: string;
+  };
+  walkingDistanceMinutes: number;
 }
 
 export interface Config {
