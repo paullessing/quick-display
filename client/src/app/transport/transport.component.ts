@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Http, ResponseContentType} from "@angular/http";
+import {Http, Response} from "@angular/http";
+import {Stations} from "../shared";
 
 @Component({
   selector: 'qd-transport',
@@ -8,7 +9,7 @@ import {Http, ResponseContentType} from "@angular/http";
 })
 export class TransportComponent implements OnInit {
 
-  public stations: any = [];
+  public stations: Stations = [];
 
   constructor(
     private http: Http
@@ -17,8 +18,9 @@ export class TransportComponent implements OnInit {
 
   ngOnInit() {
     this.http.get('http://localhost:9090/transport/latest')
-      .subscribe((data) => {
+      .subscribe((data: Response) => {
         this.stations = data.json();
+        // TODO parse this properly, and subscribe to it
       })
   }
 }

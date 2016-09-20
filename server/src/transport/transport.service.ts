@@ -1,9 +1,8 @@
 import * as request from 'request-promise-native';
 
 import {Response} from "../routes";
-import {config, StationConfig} from "../config";
+import {config, StationConfig, LineConfig} from "../config";
 import {ArrivalsResponse, Arrival} from "./transport.model";
-import {LineConfig} from "../config/config.interface";
 import {ArrivalAtPlatform, Platform} from "../shared/interfaces/stations";
 
 export class TransportService {
