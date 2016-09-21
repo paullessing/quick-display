@@ -1,18 +1,21 @@
 <ul class="stations">
   <li
     *ngFor="let station of stations"
-    class="stations__station"
+    class="stations__item"
   >
     <h3 class="stations__title">{{ station.stationName }}</h3>
     <ul class="platforms">
       <li
         *ngFor="let platform of station.platforms"
-        class="platforms__platform"
+        class="platforms__item"
       >
         <h4 class="platforms__name">{{ platform.platformName }}</h4>
-        <ul>
-          <li *ngFor="let arrival of platform.arrivals">
-            <b>{{ arrival.lineName }}</b> towards <b>{{ arrival.towards }}</b> in <b>{{ arrival.timeToStation | timeToArrival }}</b>
+        <ul class="arrivals">
+          <li
+            *ngFor="let arrival of platform.arrivals"
+            class="arrivals__item"
+          >
+            <qd-arrival [arrival]="arrival" [displayName]="false"></qd-arrival>
           </li>
         </ul>
       </li>

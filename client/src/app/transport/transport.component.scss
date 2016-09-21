@@ -1,5 +1,5 @@
 .stations{
-  &__station {
+  &__item {
     background-color: #f8f8f8;
     box-shadow: 2px 2px 4px 0 rgba(#ccc, 0.4);
     margin-bottom: 1rem;
@@ -15,12 +15,24 @@
 }
 
 .platforms {
-  &__platform {
+  &__item {
     margin-bottom: 1rem;
   }
 
   &__name {
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
+  }
+}
+
+.arrivals {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__item {
+    display: inline-flex;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    box-shadow: 2px 2px 4px 0 rgba(#000, 0.3)
   }
 }

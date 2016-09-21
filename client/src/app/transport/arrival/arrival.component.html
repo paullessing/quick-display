@@ -1,0 +1,11 @@
+<div
+  class="arrival"
+  ngClass="{{ arrival.lineId }}"
+>
+  <div
+    class="arrival__line-name"
+    *ngIf="displayName"
+  >{{ arrival.lineName }}</div>
+  <div class="arrival__destination">{{ arrival.towards }}</div>
+  <div class="arrival__time">{{ arrival.timeToStation | timeToArrival }}</div>
+</div>

@@ -1,0 +1,33 @@
+$lines: (
+  dlr: (#00afad, #000),
+  district: (#007d32, #fff),
+  hammersmith-city: (#f4a9be, #000)
+);
+
+:host {
+  display: inline-flex;
+}
+
+.arrival {
+  display: flex;
+  flex-direction: column;
+  width: 10rem;
+  height: 10rem;
+  padding: 0.5rem;
+
+  @each $line in map_keys($lines) {
+    &.#{$line} {
+      background-color: nth(map_get($lines, $line), 1);
+      color: nth(map_get($lines, $line), 2);
+    }
+  }
+
+  &__destination {
+    flex-grow: 1;
+  }
+
+  &__time {
+    font-size: 3rem;
+    text-align: center;
+  }
+}

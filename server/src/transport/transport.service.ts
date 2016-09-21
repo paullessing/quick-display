@@ -9,7 +9,7 @@ export class TransportService {
   public getLatestTimes(): Promise<Response> {
     return Promise.all(
       config.transport.stations.map((station: StationConfig) => {
-        return request<ArrivalsResponse>(`https://api.tfl.gov.uk/StopPoint/${station.id}/Arrivals`, {
+        return request(`https://api.tfl.gov.uk/StopPoint/${station.id}/Arrivals`, {
           qs: {
             app_id: config.tfl.appId,
             app_key: config.tfl.apiKey
