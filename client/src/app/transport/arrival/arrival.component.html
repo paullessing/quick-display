@@ -1,6 +1,7 @@
 <div
   class="arrival"
   ngClass="{{ arrival.lineId }}"
+  [class.arrival--too-late]="tooLate"
 >
   <div
     class="arrival__line-name"

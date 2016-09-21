@@ -4,6 +4,7 @@ export type Stations = Station[];
 
 export interface Station {
   stationName: string;
+  timeToStation: number;
   platforms: Platform[];
 }
 

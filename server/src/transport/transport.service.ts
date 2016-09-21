@@ -48,6 +48,7 @@ export class TransportService {
           platformList.sort((a: Platform, b: Platform) => this.comparePlatforms(a, b));
           return {
             stationName: station.displayName,
+            timeToStation: station.walkingDistanceMinutes * 60,
             platforms: platformList
           };
         })

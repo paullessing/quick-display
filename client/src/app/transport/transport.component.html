@@ -15,7 +15,7 @@
             *ngFor="let arrival of platform.arrivals"
             class="arrivals__item"
           >
-            <qd-arrival [arrival]="arrival" [displayName]="false"></qd-arrival>
+            <qd-arrival [arrival]="arrival" [displayName]="false" [tooLate]="arrival.timeToStation < station.timeToStation"></qd-arrival>
           </li>
         </ul>
       </li>

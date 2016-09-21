@@ -14,5 +14,8 @@ export class ArrivalComponent {
   @Input('displayName')
   public displayName: boolean;
 
+  @Input('tooLate')
+  public tooLate: boolean;
+
   constructor() {}
 }

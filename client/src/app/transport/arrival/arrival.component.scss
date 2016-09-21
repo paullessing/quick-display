@@ -1,5 +1,5 @@
 $lines: (
-  dlr: (#00afad, #000),
+  dlr: (#00afad, #fff),
   district: (#007d32, #fff),
   hammersmith-city: (#f4a9be, #000)
 );
@@ -14,6 +14,7 @@ $lines: (
   width: 10rem;
   height: 10rem;
   padding: 0.5rem;
+  font-family: Montserrat, sans-serif;
 
   @each $line in map_keys($lines) {
     &.#{$line} {
@@ -22,8 +23,16 @@ $lines: (
     }
   }
 
+  &--too-late {
+    opacity: 0.3;
+  }
+
   &__destination {
     flex-grow: 1;
+    font-size: 1.2rem;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__time {
