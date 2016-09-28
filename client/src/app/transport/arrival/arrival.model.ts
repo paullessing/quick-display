@@ -1,6 +1,6 @@
 export interface Arrival {
   station: string;
-  platform: string;
+  direction: string;
   lineId: string;
   destination: string;
   timeToStationSeconds: number;

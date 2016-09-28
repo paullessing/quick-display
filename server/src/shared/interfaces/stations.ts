@@ -1,7 +1,5 @@
 import {DateTime} from "./common";
 
-export type Stations = Station[];
-
 export interface Station {
   stationName: string;
   walkingDistanceSeconds: number;

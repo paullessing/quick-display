@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Http, Response} from "@angular/http";
-import {Stations, Station, Platform} from "../shared";
+import {Station, ArrivalAtStation, Direction} from "../shared";
 import {Arrival} from "./arrival/arrival.model";
-import {ArrivalAtStation} from "../../../../server/src/shared/interfaces/stations";
 
 @Component({
   selector: 'qd-transport',
@@ -11,7 +10,7 @@ import {ArrivalAtStation} from "../../../../server/src/shared/interfaces/station
 })
 export class TransportComponent implements OnInit {
 
-  public stations: Stations = [];
+  public stations: Station[] = [];
   public arrivals: Arrival[] = [];
   public firstFutureArrival: number;
 
@@ -31,14 +30,14 @@ export class TransportComponent implements OnInit {
   private parseData(stations: Station[]): Arrival[] {
     let arrivals: Arrival[] = [];
     stations.forEach((station: Station) => {
-      station.platforms.forEach((platform: Platform) => {
-        platform.arrivals.forEach((arrival: ArrivalAtStation) => {
+      station.directions.forEach((direction: Direction) => {
+        direction.arrivals.forEach((arrival: ArrivalAtStation) => {
           if (arrival.timeToStationSeconds < station.walkingDistanceSeconds / 2) {
             return;
           }
           arrivals.push({
             station: station.stationName,
-            platform: platform.platformName,
+            direction: direction.directionName,
             lineId: arrival.lineId,
             destination: arrival.towards,
             timeToStationSeconds: arrival.timeToStationSeconds,
