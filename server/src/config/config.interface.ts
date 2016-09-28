@@ -10,6 +10,9 @@ export interface StationConfig {
     outbound: string;
     inbound: string;
   };
+  platformDirections: {
+    [platformName: string]: string;
+  }
   walkingDistanceMinutes: number;
 }
 

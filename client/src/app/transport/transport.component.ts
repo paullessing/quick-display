@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Http, Response} from "@angular/http";
 import {Stations, Station, Platform} from "../shared";
 import {Arrival} from "./arrival/arrival.model";
-import {ArrivalAtPlatform} from "../../../../server/src/shared/interfaces/stations";
+import {ArrivalAtStation} from "../../../../server/src/shared/interfaces/stations";
 
 @Component({
   selector: 'qd-transport',
@@ -32,8 +32,8 @@ export class TransportComponent implements OnInit {
     let arrivals: Arrival[] = [];
     stations.forEach((station: Station) => {
       station.platforms.forEach((platform: Platform) => {
-        platform.arrivals.forEach((arrival: ArrivalAtPlatform) => {
-          if (arrival.timeToStation < station.timeToStation / 2) {
+        platform.arrivals.forEach((arrival: ArrivalAtStation) => {
+          if (arrival.timeToStationSeconds < station.walkingDistanceSeconds / 2) {
             return;
           }
           arrivals.push({
@@ -41,9 +41,9 @@ export class TransportComponent implements OnInit {
             platform: platform.platformName,
             lineId: arrival.lineId,
             destination: arrival.towards,
-            timeToStationSeconds: arrival.timeToStation,
-            timeToStationMinutes: Math.floor(arrival.timeToStation / 60),
-            isWalkingDistance: station.timeToStation < arrival.timeToStation,
+            timeToStationSeconds: arrival.timeToStationSeconds,
+            timeToStationMinutes: Math.floor(arrival.timeToStationSeconds / 60),
+            isWalkingDistance: station.walkingDistanceSeconds < arrival.timeToStationSeconds,
           });
         });
       });

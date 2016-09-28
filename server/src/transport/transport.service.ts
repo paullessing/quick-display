@@ -3,7 +3,7 @@ import * as request from 'request-promise-native';
 import {Response} from "../routes";
 import {config, StationConfig, LineConfig} from "../config";
 import {ArrivalsResponse, Arrival} from "./transport.model";
-import {ArrivalAtPlatform, Platform} from "../shared/interfaces/stations";
+import {ArrivalAtStation, Direction, Station} from "../shared/interfaces/stations";
 
 export class TransportService {
   public getLatestTimes(): Promise<Response> {
@@ -20,37 +20,39 @@ export class TransportService {
           return response.filter((arrival: Arrival) => !!station.lines.find((line: LineConfig) => line.lineId === arrival.lineId))
         }).then((arrivals: Arrival[]) => {
           console.log(arrivals);
-          const platforms: {[name: string]: ArrivalAtPlatform[]} = {};
+          const directions: {[name: string]: ArrivalAtStation[]} = {};
           arrivals.forEach((arrival: Arrival) => {
-            if (!platforms[arrival.platformName]) {
-              platforms[arrival.platformName] = [];
+            const direction = arrival.direction
+              || station.platformDirections[arrival.platformName]; // Look up direction from platform
+            if (!directions[direction]) {
+              directions[direction] = [];
             }
-            platforms[arrival.platformName].push({
+            directions[direction].push({
               modeName: arrival.modeName,
               towards: this.getTowards(arrival),
               lineId: arrival.lineId,
               lineName: arrival.lineName,
               stationName: arrival.stationName,
-              timeToStation: arrival.timeToStation,
+              timeToStationSeconds: arrival.timeToStation,
               expectedArrival: arrival.expectedArrival,
               timestamp: arrival.timestamp
-            });
+            } as ArrivalAtStation);
           });
-          const platformList: Platform[] = [];
-          for (const name in platforms) {
-            platforms[name].sort((a: ArrivalAtPlatform, b: ArrivalAtPlatform) =>
-              a.timeToStation - b.timeToStation);
-            platformList.push({
-              platformName: name,
-              arrivals: platforms[name]
+          const directionList: Direction[] = [];
+          for (const name in directions) {
+            directions[name].sort((a: ArrivalAtStation, b: ArrivalAtStation) =>
+              a.timeToStationSeconds - b.timeToStationSeconds);
+            directionList.push({
+              directionName: station.directions[name] || 'Unknown',
+              arrivals: directions[name]
             });
           }
-          platformList.sort((a: Platform, b: Platform) => this.comparePlatforms(a, b));
+          // directionList.sort((a: Direction, b: Direction) => this.comparePlatforms(station, a, b));
           return {
             stationName: station.displayName,
-            timeToStation: station.walkingDistanceMinutes * 60,
-            platforms: platformList
-          };
+            walkingDistanceSeconds: station.walkingDistanceMinutes * 60,
+            directions: directionList
+          } as Station;
         })
       }
     )).then((stations: any[]) => {
@@ -66,18 +68,5 @@ export class TransportService {
       return arrival.destinationName.replace(/DLR Station$/gi, '');
     }
     return null;
-  }
-
-  private comparePlatforms(a: Platform, b: Platform): number {
-    const nameA = a.platformName;
-    const nameB = b.platformName;
-    let matchA = nameA.match(/Platform ([0-9]+)/gi);
-    let matchB = nameB.match(/Platform ([0-9]+)/gi);
-    console.log('Comparing', nameA, nameB, matchA, matchB);
-    if (matchA && matchB) {
-      return matchA[0] < matchB[0] ? -1 : matchA[0] === matchB[0] ? 0 : 1;
-    } else {
-      return nameA < nameB ? -1 : nameA === nameB ? 0 : 1;
-    }
   }
 }

@@ -4,22 +4,22 @@ export type Stations = Station[];
 
 export interface Station {
   stationName: string;
-  timeToStation: number;
-  platforms: Platform[];
+  walkingDistanceSeconds: number;
+  directions: Direction[];
 }
 
-export interface Platform {
-  platformName: string;
-  arrivals: ArrivalAtPlatform[];
+export interface Direction {
+  directionName: string;
+  arrivals: ArrivalAtStation[];
 }
 
-export interface ArrivalAtPlatform {
+export interface ArrivalAtStation {
   modeName: string;
   towards: string;
   lineId: string;
   lineName: string;
   stationName: string;
-  timeToStation: number;
+  timeToStationSeconds: number;
   expectedArrival: DateTime;
   timestamp: DateTime;
 }

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {ArrivalAtPlatform} from "../../shared";
+import {ArrivalAtStation} from "../../shared";
 import {Arrival} from "./arrival.model";
 
 @Component({
