@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import {ArrivalAtPlatform} from "../../shared";
+import {Arrival} from "./arrival.model";
 
 @Component({
   selector: 'qd-arrival',
@@ -9,13 +10,10 @@ import {ArrivalAtPlatform} from "../../shared";
 export class ArrivalComponent {
 
   @Input('arrival')
-  public arrival: ArrivalAtPlatform;
+  public arrival: Arrival;
 
-  @Input('displayName')
-  public displayName: boolean;
-
-  @Input('tooLate')
-  public tooLate: boolean;
+  @Input('small')
+  public small: boolean;
 
   constructor() {}
 }

@@ -26,13 +26,15 @@
 }
 
 .arrivals {
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
+  flex-direction: column;
+  height: 10rem;
+  align-items: flex-start;
+  justify-content: space-between;
 
   &__item {
-    display: inline-flex;
     margin-right: 1em;
-    margin-bottom: 1em;
-    box-shadow: 2px 2px 4px 0 rgba(#000, 0.3)
+    flex: 0 0 auto;
   }
 }

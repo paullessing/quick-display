@@ -1,23 +1,24 @@
 <ul class="stations">
   <li
-    *ngFor="let station of stations"
     class="stations__item"
   >
-    <h3 class="stations__title">{{ station.stationName }}</h3>
+    <h3 class="stations__title">Foo</h3>
     <ul class="platforms">
       <li
-        *ngFor="let platform of station.platforms"
         class="platforms__item"
       >
-        <h4 class="platforms__name">{{ platform.platformName }}</h4>
-        <ul class="arrivals">
-          <li
-            *ngFor="let arrival of platform.arrivals"
+        <h4 class="platforms__name">Foo</h4>
+        <div
+          class="arrivals"
+          *ngIf="arrivals.length"
+        >
+          <qd-arrival
             class="arrivals__item"
-          >
-            <qd-arrival [arrival]="arrival" [displayName]="false" [tooLate]="arrival.timeToStation < station.timeToStation"></qd-arrival>
-          </li>
-        </ul>
+            *ngFor="let arrival of arrivals; let i = index"
+            [arrival]="arrival"
+            [small]="i < firstFutureArrival || i > firstFutureArrival + 3"
+          ></qd-arrival>
+        </div>
       </li>
     </ul>
   </li>
