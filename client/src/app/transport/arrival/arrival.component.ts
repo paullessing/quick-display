@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, OnChanges} from '@angular/core';
 import {ArrivalAtStation} from "../../shared";
 import {Arrival} from "./arrival.model";
 
@@ -7,7 +7,7 @@ import {Arrival} from "./arrival.model";
   templateUrl: './arrival.component.html',
   styleUrls: ['./arrival.component.scss']
 })
-export class ArrivalComponent {
+export class ArrivalComponent implements OnChanges {
 
   @Input('arrival')
   public arrival: Arrival;
@@ -15,5 +15,13 @@ export class ArrivalComponent {
   @Input('small')
   public small: boolean;
 
+  public timeToStationMinutes: number;
+
   constructor() {}
+
+  ngOnChanges() {
+    if (this.arrival) {
+      this.timeToStationMinutes = Math.floor(this.arrival.timeToStationSeconds / 60);
+    }
+  }
 }

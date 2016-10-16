@@ -3,6 +3,16 @@ import {Http, Response} from "@angular/http";
 import {Station, ArrivalAtStation, Direction} from "../shared";
 import {Arrival} from "./arrival/arrival.model";
 
+// TODO move to model file
+export interface DirectionFromStation {
+  stationName: string;
+  directionName: string;
+  // lineId: string;
+  // lineName: string;
+  missed: Arrival[];
+  next: Arrival[];
+}
+
 @Component({
   selector: 'qd-transport',
   templateUrl: './transport.component.html',
@@ -12,6 +22,7 @@ export class TransportComponent implements OnInit {
 
   public stations: Station[] = [];
   public arrivals: Arrival[] = [];
+  public directions: DirectionFromStation[] = [];
   public firstFutureArrival: number;
 
   constructor(
@@ -21,42 +32,40 @@ export class TransportComponent implements OnInit {
 
   ngOnInit() {
     this.http.get('http://localhost:9090/transport/latest')
-      .subscribe((data: Response) => {
-        this.stations = data.json();
-        this.arrivals = this.parseData(this.stations);
+      .map((data: Response) => data.json())
+      .map((stations: Station[]): DirectionFromStation[][] => {
+        return stations.map((station: Station): DirectionFromStation[] => {
+          console.log('Station', station.stationName, station.directions);
+          return station.directions.map((direction: Direction) => {
+            // TODO figure out "next H&S/District etc.", group by line
+            return {
+              stationName: station.stationName,
+              directionName: direction.directionName,
+              missed: direction.arrivals.filter((arrival: ArrivalAtStation) => arrival.timeToStationSeconds < station.walkingDistanceSeconds)
+                .map((arrival: ArrivalAtStation) => this.convertArrivalForDisplay(station, direction, arrival)),
+              next: direction.arrivals.filter((arrival: ArrivalAtStation) => arrival.timeToStationSeconds >= station.walkingDistanceSeconds)
+                .map((arrival: ArrivalAtStation) => this.convertArrivalForDisplay(station, direction, arrival))
+              };
+            });
+          });
+      })
+      .map((directionss: DirectionFromStation[][]) => {
+        return [].concat(...directionss);
+      })
+      .subscribe((directions: DirectionFromStation[]) => {
+        this.directions = directions;
       })
   }
 
-  private parseData(stations: Station[]): Arrival[] {
-    let arrivals: Arrival[] = [];
-    stations.forEach((station: Station) => {
-      station.directions.forEach((direction: Direction) => {
-        direction.arrivals.forEach((arrival: ArrivalAtStation) => {
-          if (arrival.timeToStationSeconds < station.walkingDistanceSeconds / 2) {
-            return;
-          }
-          arrivals.push({
-            station: station.stationName,
-            direction: direction.directionName,
-            lineId: arrival.lineId,
-            destination: arrival.towards,
-            timeToStationSeconds: arrival.timeToStationSeconds,
-            timeToStationMinutes: Math.floor(arrival.timeToStationSeconds / 60),
-            isWalkingDistance: station.walkingDistanceSeconds < arrival.timeToStationSeconds,
-          });
-        });
-      });
-    });
-
-    arrivals.sort((a, b) => a.timeToStationSeconds - b.timeToStationSeconds);
-    this.firstFutureArrival = arrivals.length;
-    for (let i = 0; i < arrivals.length; i++) {
-      if (arrivals[i].isWalkingDistance) {
-        this.firstFutureArrival = i;
-        break;
-      }
-    }
-
-    return arrivals;
+  private convertArrivalForDisplay(station: Station, direction: Direction, arrival: ArrivalAtStation): Arrival {
+    return {
+      station: station.stationName,
+      direction: direction.directionName,
+      lineId: arrival.lineId,
+      destination: arrival.towards,
+      timeToStationSeconds: arrival.timeToStationSeconds,
+      timeToStationMinutes: Math.floor(arrival.timeToStationSeconds / 60),
+      isWalkingDistance: station.walkingDistanceSeconds < arrival.timeToStationSeconds,
+    };
   }
 }

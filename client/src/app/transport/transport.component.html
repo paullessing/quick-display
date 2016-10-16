@@ -1,24 +1,46 @@
-<ul class="stations">
+<!--<ul class="stations">-->
+  <!--<li-->
+    <!--*ngFor="let station of stations"-->
+    <!--class="stations__item"-->
+  <!--&gt;-->
+    <!--<h3 class="stations__title">{{ station.stationName }}</h3>-->
+    <!--<ul class="platforms">-->
+      <!--<li-->
+        <!--*ngFor="let direction of station.directions"-->
+        <!--class="platforms__item"-->
+      <!--&gt;-->
+        <!--<h4 class="platforms__name">{{ direction.directionName }}</h4>-->
+        <!--<ul class="arrivals">-->
+          <!--<li-->
+            <!--*ngFor="let arrival of direction.arrivals"-->
+            <!--class="arrivals__item"-->
+          <!--&gt;-->
+            <!--<qd-arrival-->
+              <!--[arrival]="arrival"-->
+            <!--&gt;</qd-arrival>-->
+          <!--</li>-->
+        <!--</ul>-->
+      <!--</li>-->
+    <!--</ul>-->
+  <!--</li>-->
+<!--</ul>-->
+
+<ul class="directions">
   <li
-    class="stations__item"
+    class="directions__item"
+    *ngFor="let direction of directions"
   >
-    <h3 class="stations__title">Foo</h3>
-    <ul class="platforms">
+    {{ direction.directionName }} from {{ direction.stationName }}
+    <ul>
+      <!--<li-->
+        <!--*ngFor="let missed of direction.missed"-->
+      <!--&gt;-->
+        <!--{{ missed.timeToStationMinutes }} minutes to {{ missed.destination }} (gone)-->
+      <!--</li>-->
       <li
-        class="platforms__item"
+        *ngFor="let next of direction.next"
       >
-        <h4 class="platforms__name">Foo</h4>
-        <div
-          class="arrivals"
-          *ngIf="arrivals.length"
-        >
-          <qd-arrival
-            class="arrivals__item"
-            *ngFor="let arrival of arrivals; let i = index"
-            [arrival]="arrival"
-            [small]="i < firstFutureArrival || i > firstFutureArrival + 3"
-          ></qd-arrival>
-        </div>
+        {{ next.timeToStationMinutes }} minutes to {{ next.destination }}
       </li>
     </ul>
   </li>

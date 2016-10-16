@@ -5,6 +5,9 @@ import { enableProdMode } from '@angular/core';
 import { environment } from './environments/environment';
 import { AppModule } from './app/';
 
+// RxJs imports
+import 'rxjs/add/operator/map';
+
 if (environment.production) {
   enableProdMode();
 }

@@ -1,13 +1,13 @@
 <div
   class="arrival"
   ngClass="{{ arrival.lineId }}"
-  [class.arrival--too-late]="!arrival.isWalkingDistance"
   [class.arrival--small]="small"
 >
+  <!-- [class.arrival--too-late]="!arrival.isWalkingDistance" -->
   <!--<div-->
     <!--class="arrival__line-name"-->
     <!--*ngIf="displayName"-->
   <!--&gt;{{ arrival.lineName }}</div>-->
-  <div class="arrival__destination">{{ arrival.destination }}</div>
-  <div class="arrival__time">{{ arrival.timeToStationMinutes + (small ? '' : 'm') }}</div>
+  <div class="arrival__destination">{{ arrival.towards }}</div>
+  <div class="arrival__time">{{ timeToStationMinutes + (small ? '' : 'm') }}</div>
 </div>
