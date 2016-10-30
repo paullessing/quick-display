@@ -1,5 +1,4 @@
 import {Component, Input, OnChanges} from '@angular/core';
-import {ArrivalAtStation} from "../../shared";
 import {Arrival} from "./arrival.model";
 
 @Component({

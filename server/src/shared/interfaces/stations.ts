@@ -1,23 +1,17 @@
-import {DateTime} from "./common";
-
 export interface Station {
-  stationName: string;
-  walkingDistanceSeconds: number;
+  name: string;
   directions: Direction[];
 }
 
 export interface Direction {
-  directionName: string;
-  arrivals: ArrivalAtStation[];
+  name: string;
+  upcoming: Departure[];
+  past: Departure[];
 }
 
-export interface ArrivalAtStation {
-  modeName: string;
-  towards: string;
+export interface Departure {
   lineId: string;
   lineName: string;
-  stationName: string;
-  timeToStationSeconds: number;
-  expectedArrival: DateTime;
-  timestamp: DateTime;
+  minutesToDeparture: number;
+  destination: string;
 }

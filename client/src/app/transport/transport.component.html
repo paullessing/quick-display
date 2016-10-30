@@ -1,46 +1,25 @@
-<!--<ul class="stations">-->
-  <!--<li-->
-    <!--*ngFor="let station of stations"-->
-    <!--class="stations__item"-->
-  <!--&gt;-->
-    <!--<h3 class="stations__title">{{ station.stationName }}</h3>-->
-    <!--<ul class="platforms">-->
-      <!--<li-->
-        <!--*ngFor="let direction of station.directions"-->
-        <!--class="platforms__item"-->
-      <!--&gt;-->
-        <!--<h4 class="platforms__name">{{ direction.directionName }}</h4>-->
-        <!--<ul class="arrivals">-->
-          <!--<li-->
-            <!--*ngFor="let arrival of direction.arrivals"-->
-            <!--class="arrivals__item"-->
-          <!--&gt;-->
-            <!--<qd-arrival-->
-              <!--[arrival]="arrival"-->
-            <!--&gt;</qd-arrival>-->
-          <!--</li>-->
-        <!--</ul>-->
-      <!--</li>-->
-    <!--</ul>-->
-  <!--</li>-->
-<!--</ul>-->
-
-<ul class="directions">
+<ul>
   <li
-    class="directions__item"
-    *ngFor="let direction of directions"
+    *ngFor="let station of stations"
   >
-    {{ direction.directionName }} from {{ direction.stationName }}
+    <h2>{{ station.name }}</h2>
     <ul>
-      <!--<li-->
-        <!--*ngFor="let missed of direction.missed"-->
-      <!--&gt;-->
-        <!--{{ missed.timeToStationMinutes }} minutes to {{ missed.destination }} (gone)-->
-      <!--</li>-->
-      <li
-        *ngFor="let next of direction.next"
-      >
-        {{ next.timeToStationMinutes }} minutes to {{ next.destination }}
+      <li *ngFor="let direction of station.directions">
+        <h2>{{ direction.name }}</h2>
+        <ul>
+          <li
+            class="departure"
+            *ngFor="let departure of direction.upcoming"
+            ngClass="{{ 'line--' + departure.lineId }}"
+          >{{ departure.minutesToDeparture }}</li>
+        </ul>
+        <ul>
+          <li
+            class="departure departure--past"
+            *ngFor="let departure of direction.past"
+            ngClass="{{ 'line--' + departure.lineId }}"
+          >{{ departure.minutesToDeparture }}</li>
+        </ul>
       </li>
     </ul>
   </li>
