@@ -45,6 +45,30 @@ export class TransportService {
             departureCategory.sort((a: Departure, b: Departure) => a.minutesToDeparture - b.minutesToDeparture);
           });
 
+          Object.keys(directionsByName).map(directionName => directionsByName[directionName])
+            .forEach((direction: Direction) => {
+              direction.past = direction.past.filter((departure: Departure) => {
+                if (departure.minutesToDeparture < stationConfig.walkingDistanceMinutes / 2) {
+                  return false;
+                }
+                return true;
+              });
+              const lines: Map<boolean> = {};
+              direction.upcoming = direction.upcoming.filter((departure: Departure, index: number) => {
+                const thisLineSeenBefore = lines[departure.lineId];
+                lines[departure.lineId] = true;
+
+                if (!thisLineSeenBefore) {
+                  console.log('Not seen before', departure.lineId, direction.name);
+                  return true;
+                }
+                if (index >= 3 && (departure.minutesToDeparture > stationConfig.walkingDistanceMinutes + 10 || index > 5)) {
+                  console.log('Removing', departure);
+                  return false;
+                }
+                return true;
+              })
+            });
 
           const station: Station = {
             name: stationConfig.displayName,
@@ -55,7 +79,6 @@ export class TransportService {
         });
       }
     ))
-    .then(x => {console.log("\n\nDONE:\n", JSON.stringify(x)); return x})
     .then(Response.resolve);
   }
 

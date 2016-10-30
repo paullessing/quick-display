@@ -1,21 +1,28 @@
-<ul>
+<ul
+  class="stations"
+>
   <li
+    class="stations__item"
     *ngFor="let station of stations"
   >
-    <h2>{{ station.name }}</h2>
-    <ul>
-      <li *ngFor="let direction of station.directions">
+    <h2
+      class="stations__header"
+    >{{ station.name }}</h2>
+    <ul class="directions">
+      <li
+        class="directions__item"
+        *ngFor="let direction of station.directions">
         <h2>{{ direction.name }}</h2>
-        <ul>
+        <ul class="departures">
           <li
-            class="departure"
+            class="departures__item"
             *ngFor="let departure of direction.upcoming"
             ngClass="{{ 'line--' + departure.lineId }}"
           >{{ departure.minutesToDeparture }}</li>
         </ul>
-        <ul>
+        <ul class="departures">
           <li
-            class="departure departure--past"
+            class="departures__item departures__item--past"
             *ngFor="let departure of direction.past"
             ngClass="{{ 'line--' + departure.lineId }}"
           >{{ departure.minutesToDeparture }}</li>
