@@ -8,6 +8,13 @@ $lines: (
   display: flex;
   flex-wrap: wrap;
 
+  &__header {
+    font-family: Montserrat, Roboto, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 2.5rem;
+    text-align: center;
+  }
+
   &__item {
     display: block;
   }
@@ -17,6 +24,14 @@ $lines: (
   display: flex;
   flex-wrap: nowrap;
 
+  &__name {
+    text-align: center;
+    margin-right: 2rem;
+    font-family: Montserrat, Roboto, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 2rem;
+  }
+
   &__item {
     display: block;
   }
@@ -25,6 +40,7 @@ $lines: (
 .departures {
   display: flex;
   flex-wrap: nowrap;
+  margin-right: 2rem;
 
   &__item {
     display: flex;
@@ -40,6 +56,10 @@ $lines: (
     justify-content: center;
     align-items: center;
 
+    &:last-child {
+      margin-right: 0;
+    }
+
     &--past {
       opacity: 0.5;
     }
@@ -51,4 +71,8 @@ $lines: (
     background-color: nth(map_get($lines, $line), 1);
     color: nth(map_get($lines, $line), 2);
   }
+}
+
+.line--ghost {
+  background-color: #aaa;
 }

@@ -12,13 +12,17 @@
       <li
         class="directions__item"
         *ngFor="let direction of station.directions">
-        <h2>{{ direction.name }}</h2>
+        <h2
+          class="directions__name"
+        >{{ direction.name }}</h2>
         <ul class="departures">
           <li
             class="departures__item"
             *ngFor="let departure of direction.upcoming"
-            ngClass="{{ 'line--' + departure.lineId }}"
-          >{{ departure.minutesToDeparture }}</li>
+            ngClass="{{
+              'line--' + (departure ? departure.lineId : 'ghost')
+            }}"
+          >{{ departure?.minutesToDeparture }}</li>
         </ul>
         <ul class="departures">
           <li

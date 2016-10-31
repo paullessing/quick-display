@@ -12,7 +12,8 @@ export interface StationConfig {
   };
   platformDirections: {
     [platformName: string]: string;
-  }
+  };
+  inboundFirst?: boolean;
   walkingDistanceMinutes: number;
 }
 

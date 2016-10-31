@@ -45,7 +45,9 @@ export class TransportService {
             departureCategory.sort((a: Departure, b: Departure) => a.minutesToDeparture - b.minutesToDeparture);
           });
 
-          Object.keys(directionsByName).map(directionName => directionsByName[directionName])
+          const directions = Object.keys(directionsByName).map(directionName => directionsByName[directionName]);
+
+          directions
             .forEach((direction: Direction) => {
               direction.past = direction.past.filter((departure: Departure) => {
                 if (departure.minutesToDeparture < stationConfig.walkingDistanceMinutes / 2) {
@@ -53,16 +55,16 @@ export class TransportService {
                 }
                 return true;
               });
-              const lines: Map<boolean> = {};
+              const linesSeenBefore: Map<boolean> = {};
               direction.upcoming = direction.upcoming.filter((departure: Departure, index: number) => {
-                const thisLineSeenBefore = lines[departure.lineId];
-                lines[departure.lineId] = true;
+                const thisLineSeenBefore = linesSeenBefore[departure.lineId];
+                linesSeenBefore[departure.lineId] = true;
 
                 if (!thisLineSeenBefore) {
                   console.log('Not seen before', departure.lineId, direction.name);
                   return true;
                 }
-                if (index >= 3 && (departure.minutesToDeparture > stationConfig.walkingDistanceMinutes + 10 || index > 5)) {
+                if (index >= 3 && (departure.minutesToDeparture > stationConfig.walkingDistanceMinutes + 10 || index >= 5)) {
                   console.log('Removing', departure);
                   return false;
                 }
@@ -70,9 +72,11 @@ export class TransportService {
               })
             });
 
+          directions.sort(sortInboundOutbound(stationConfig));
+
           const station: Station = {
             name: stationConfig.displayName,
-            directions: Object.keys(directionsByName).map(directionName => directionsByName[directionName])
+            directions: directions
           };
 
           return station;
@@ -95,4 +99,49 @@ export class TransportService {
   private getDirection(arrival: ApiArrival, stationConfig: StationConfig): string {
     return arrival.direction || stationConfig.platformDirections[arrival.platformName]; // Look up direction from platform
   }
+}
+
+function sortInboundOutbound(stationConfig: StationConfig): (a: Direction, b: Direction) => number {
+  return (directionA: Direction, directionB: Direction) => {
+    if (typeof stationConfig.inboundFirst === 'undefined') {
+      return 0;
+    }
+
+    if (directionA.name === directionB.name) {
+      return 0;
+    }
+
+    const isAInbound = stationConfig.directions.inbound === directionA.name; // Not great
+    const isBInbound = stationConfig.directions.inbound === directionB.name;
+    const isAOutbound = stationConfig.directions.outbound === directionA.name;
+    const isBOutbound = stationConfig.directions.outbound === directionB.name;
+
+    console.log(isAInbound, isBInbound, isAOutbound, isBOutbound);
+
+    if (stationConfig.inboundFirst) {
+      if (isAInbound) {
+        return -1;
+      } else if (isBInbound) {
+        return 1;
+      } else if (isAOutbound) {
+        return -1;
+      } else if (isBOutbound) {
+        return 1;
+      } else {
+        return 0;
+      }
+    } else {
+      if (isAOutbound) {
+        return -1;
+      } else if (isBOutbound) {
+        return 1;
+      } else if (isAInbound) {
+        return -1;
+      } else if (isBInbound) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+  };
 }
